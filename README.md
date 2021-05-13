@@ -25,3 +25,5 @@ Baidu Yun: [download link](https://pan.baidu.com/s/1humECw3oz4xRbWy5CaakZQ) (key
 - ```python crowdcounter.py```.
 - results are saved at ```./images/results```.
 
+### Based on
+https://github.com/xiyang1012/Local-Crowd-Counting

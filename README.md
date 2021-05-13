@@ -22,6 +22,6 @@ Google Drive: [download link](https://drive.google.com/open?id=1btZa7ltAwqQe0CDa
 Baidu Yun: [download link](https://pan.baidu.com/s/1humECw3oz4xRbWy5CaakZQ) (key: pe2r) 
 
 ### Run
-- ```python demo.py```.
+- ```python crowdcounter.py```.
 - results are saved at ```./images/results```.
 

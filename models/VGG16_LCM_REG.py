@@ -6,20 +6,10 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from torchvision import models
-from test_config import cfg
 
-data_mode = cfg.DATASET
-if data_mode is 'SHHA':
-    patch_max = cfg.SHHAPATCHMAX
-elif data_mode is 'SHHB':
-    patch_max = cfg.SHHBPATCHMAX
-elif data_mode is 'QNRF':
-    patch_max = cfg.QNRFPATCHMAX
-elif data_mode is 'UCF50':
-    patch_max = cfg.CC50PATCHMAX
 
 class VGG16_LCM_REG(nn.Module):
-    def __init__(self, load_weights=False, stage_num=[3,3,3], count_range=patch_max, lambda_i=1., lambda_k=1.):
+    def __init__(self, load_weights=False, stage_num=[3,3,3], count_range=100, lambda_i=1., lambda_k=1.):
         super(VGG16_LCM_REG, self).__init__()
 
         # cfg

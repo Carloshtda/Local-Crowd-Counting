@@ -1,3 +1,10 @@
+#%%
+'''
+Projeto de COMPUTAÇÃO GRÁFICA E PROCESSAMENTO DE IMAGENS:
+    
+Adaptive Mixture Regression Network with Local Counting Map for Crowd Counting
+'''
+#%%
 import os
 import cv2
 import math
@@ -11,6 +18,7 @@ from matplotlib import pyplot as plt
 
 import torch
 import torch.nn as nn
+
 
 from torch.autograd import Variable
 import torchvision.transforms as standard_transforms
@@ -84,18 +92,44 @@ class CrowdCounter(nn.Module):
         cv2.imwrite(os.path.join(save_dir, 'result' + '__predcount__' + str(int(pred_value + 0.5)) + '.jpg'), img_cv)
         
 
-
+        height = len(image)
+        width = len(image[0])
+        agg_map = np.zeros((height,width,3), np.uint8)
+        
+        aux  = np.copy(image)
+        aux = cv2.normalize(aux.astype('float64'), None, 1, 0, cv2.NORM_MINMAX)
+        
+        for i in range(height):
+            for j in range(width):
+                #(B, G, R)
+                if aux[i][j] >= 0.01 and aux[i][j] < 0.1:
+                    agg_map[i][j] = (0, 255 , 0)          #Green
+                elif aux[i][j] >= 0.1 and aux[i][j] < 0.4:
+                    agg_map[i][j] = (255, 255 , 0)        #Yellow
+                elif aux[i][j] >= 0.4 and aux[i][j] < 0.7:
+                    agg_map[i][j] = (255, 165 , 0)         #Orange
+                elif aux[i][j] >= 0.7 and aux[i][j] <= 1.0:
+                    agg_map[i][j] = (255, 0 , 0)         #Red
+                else:
+                    agg_map[i][j] = (255,  255, 255)    
+    
+        plt.imshow(agg_map)
+        den_frame.axes.get_yaxis().set_visible(False)
+        den_frame.axes.get_xaxis().set_visible(False)
+        den_frame.spines['top'].set_visible(False)
+        den_frame.spines['bottom'].set_visible(False)
+        den_frame.spines['left'].set_visible(False)
+        den_frame.spines['right'].set_visible(False)
+        
+        plt.savefig(os.path.join(save_dir, 'result' + '_aglomeration_' + str(int(pred_value + 0.5)) + '.png'),
+                    bbox_inches='tight', pad_inches=0, dpi=150)  
                 
         
 #%%
 if __name__ == '__main__':
     weights_path = './models/QNRF_mae_86.61_mse_152.19.pth'
-    image_path = "./images/crowd6.jpg"
-    # img_cv = cv2.imread(image_path)
-    # while 0xFF & cv2.waitKey(1) != ord('q'):
-    #     cv2.imshow("img", img_cv)
+    image_path = "./images/crowd7.jpg"
 
-    #cv2.destroyAllWindows()
     cc = CrowdCounter(weights_path)
     cc.run(image_path)
    

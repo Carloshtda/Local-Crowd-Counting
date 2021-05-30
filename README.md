@@ -29,3 +29,6 @@ Paper: https://arxiv.org/abs/2005.05776
 
 ### Primeira etapa de desenvolvimento
 Redução de todo o código para uma única classe capaz de fazer a contagem utilizando o melhor modelo proposto pelo paper (crowdcounter.py).
+
+### Segunda etapa de desenvolvimento
+Criação de um mapa de contagem com melhor visualização de onde exise maior concentração de pessoas.
